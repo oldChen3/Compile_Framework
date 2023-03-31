@@ -92,19 +92,40 @@ build_NetClientApp()
   
 }
 
+build_mjpg()
+{
+  local script_dir="${BASE_DIR}/scripts/mjpg-stream"
+  local build_script='mjpg-build.sh'
+ 
+  cd ${script_dir}
+  pwd
+  if [ "$1" = 'clean' ]; then
+    ./${build_script} clean
+  elif [ "$1" = 'clean_all' ]; then
+    ./${build_script} clean_all
+  elif [ "$1" = 'build' ]; then
+    ./${build_script} clean
+    ./${build_script} build
+    #./${build_script} install
+  fi
+}
+
 if [ "${BUILD_TARGET}" = "clean" ];then
   build_mainApp clean
   build_testApp clean
   build_NetClientApp clean
+  build_mjpg clean
 elif [ "${BUILD_TARGET}" = "clean_all" ];then
   build_mainApp clean_all
   build_testApp clean_all
   build_NetClientApp clean_all
+  build_mjpg clean_all
   rm -rf ${INSTALL_DIR}/*
 elif [ "${BUILD_TARGET}" = "build" ];then
   build_mainApp build
   build_testApp build
   build_NetClientApp build
+  build_mjpg build
 fi
 
 exit 0
